@@ -11,13 +11,15 @@ BOT_NAME = 'capture'
 
 SPIDER_MODULES = ['capture.spiders']
 NEWSPIDER_MODULE = 'capture.spiders'
+MEDIA_ALLOW_REDIRECTS = True
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'capture (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+#ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -86,3 +88,31 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+#FILES_STORE = 'donwloads'
+FILES_STORE = 'E:\\CrawlCopyright\\Capturepiracy\\WebtoonImages'
+ 
+FILES_URLS_FIELD = 'file_urls'
+FILES_RESULT_FIELD = 'files'
+
+# 한글 쓰기(출력 인코딩)
+FEED_EXPORT_ENCODING = 'utf-8'
+FEED_FORMAT = "csv"
+# Name of the file where data extracted is stored
+FEED_URI = "CrawlDB.csv"
+
+ITEM_PIPELINES = {
+    #'scrapy.pipelines.files.FilesPipeline': 300,
+    #'capture.pipelines.WebtoonPipeline': 300, # Download Pipeline
+    'capture.pipelines.CsvPipeline': 300,
+}
+
+# User-agent 미들웨어 사용
+'''DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+    'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401
+}
+'''
+

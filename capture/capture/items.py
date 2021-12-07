@@ -10,3 +10,20 @@ class CaptureItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+class ImageItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
+    pass
+
+class WebtoonItem(scrapy.Item):
+    # define the fields for your item here like:
+    extension = scrapy.Field()
+    hosturl = scrapy.Field()
+    updatetime = scrapy.Field()
+    crawltime = scrapy.Field()
+    webtoonName = scrapy.Field()
+    episode = scrapy.Field()
+    file_urls = scrapy.Field()
+    files = scrapy.Field()
+    
