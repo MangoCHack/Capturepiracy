@@ -2,7 +2,7 @@ import scrapy
 
 class ToonkorSpider(scrapy.Spider):
     name = 'toonkor'
-    allowed_domains = ['tkor.toys']
+    #allowed_domains = ['tkor.toys']
     start_urls = ['https://tkor.toys/']
 
     def parse(self, response):        
