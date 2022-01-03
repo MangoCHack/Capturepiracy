@@ -15,6 +15,6 @@ star o
 sure o
 toonbook x -> 링크연결 사이트
 toonkor o
-toonsarang x
+toonsarang o
 toonthe x
-wtwt x
+wtwt o
