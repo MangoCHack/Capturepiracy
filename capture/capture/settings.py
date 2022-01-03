@@ -99,20 +99,30 @@ FILES_RESULT_FIELD = 'files'
 FEED_EXPORT_ENCODING = 'utf-8'
 FEED_FORMAT = "csv"
 # Name of the file where data extracted is stored
-FEED_URI = "CrawlDB.csv"
+FEED_URI = "E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\CrawlDB.csv"
 
 ITEM_PIPELINES = {
     #'scrapy.pipelines.files.FilesPipeline': 300,
     #'capture.pipelines.WebtoonPipeline': 300, # Download Pipeline
-    'capture.pipelines.CsvPipeline': 300,
+    'capture.pipelines.CsvPipeline': 900,
 }
 
-# User-agent 미들웨어 사용
-'''DOWNLOADER_MIDDLEWARES = {
+from shutil import which
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver.exe')
+SELENIUM_DRIVER_ARGUMENTS=['--headless']  # '--headless' if using chrome instead of firefox
+
+DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
     'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
-    'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401
+    'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
+    'scrapy_selenium.SeleniumMiddleware': 800
 }
-'''
 
+FAKEUSERAGENT_PROVIDERS = [
+    'scrapy_fake_useragent.providers.FakeUserAgentProvider',  # this is the first provider we'll try
+    'scrapy_fake_useragent.providers.FakerProvider',  # if FakeUserAgentProvider fails, we'll use faker to generate a user-agent string for us
+    'scrapy_fake_useragent.providers.FixedUserAgentProvider',  # fall back to USER_AGENT value
+]
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'

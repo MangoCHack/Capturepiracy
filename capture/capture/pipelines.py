@@ -48,9 +48,9 @@ class CsvPipeline(object):
         # 엑셀 처리 선언
         if not os.path.exists('E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\'):
             os.makedirs('E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\')
-        self.file_opener = open("E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\\CrawlDB.csv", "w+")
+        self.file_opener = open("E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\\CrawlDB.csv", "a", newline='')
         self.csv_writer = csv.DictWriter(self.file_opener, fieldnames=['hosturl','webtoonName','crawltime','updatetime','episode','file_urls','extension'])
-
+        self.csv_writer.writeheader()
         '''
             extension = scrapy.Field()
             hosturl = scrapy.Field()
