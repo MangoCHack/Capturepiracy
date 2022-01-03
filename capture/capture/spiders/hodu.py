@@ -1,10 +1,13 @@
 import scrapy
-
+import datetime
+from capture.items import WebtoonItem
+import re
+from scrapy_selenium import SeleniumRequest
 
 class HoduSpider(scrapy.Spider): #javascript page loading
     name = 'hodu'
     #allowed_domains = ['hodu224.net']
-    start_urls = ['https://hodu226.net/']
+    start_urls = ['https://hodu229.net/']
 
     def parse(self, response):
         '''
@@ -12,13 +15,17 @@ class HoduSpider(scrapy.Spider): #javascript page loading
             webtoon_page = response.urljoin(weekly)
             yield scrapy.Request(webtoon_page, callback=self.webtoonList)
         '''
-        webtoon_page='https://fxfx94.com/ing?o=n&type1=day&type2=recent' #업데이트 웹툰페이지
-        yield scrapy.Request(webtoon_page, callback=self.webtoonList)
+        webtoon_page='https://hodu229.net/toon' #업데이트 웹툰페이지
+        
+        yield SeleniumRequest(url=webtoon_page, callback=self.webtoonList)
          
     def webtoonList(self, response): #weekly webtoonList
         #webtoon_list = response.xpath('/html/body/div[7]/div/div[1]/div/div').xpath('//p/a').xpath('@href').getall()
         
-        webtoon_list = response.css('.list').xpath('.//li').get()
+        webtoon_list = response.css('.webtoon-list').xpath('.//li').getall()
+        print(response.body)
+        print(webtoon_list)
+        '''
         today = []
         for i in range(len(webtoon_list)):
             
@@ -62,3 +69,4 @@ class HoduSpider(scrapy.Spider): #javascript page loading
         item['file_urls'] = DownloadUrl #DB로 저장할때는 원본 그대로
         item['extension'] = DownloadUrl.split('.')[-1]
         yield item
+    '''

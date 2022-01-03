@@ -1,43 +1,32 @@
 import scrapy
+import datetime
+from capture.items import WebtoonItem
+import feedparser
+import re
 
 class ToonkorSpider(scrapy.Spider):
     name = 'toonkor'
     #allowed_domains = ['tkor.toys']
-    start_urls = ['https://tkor.toys/']
-
-    def parse(self, response):        
-        for n, weekly in enumerate(response.xpath('/html/body/div[2]/div/div[1]/div[3]/div[1]/div[2]/div/ul').getall(),1):
-            weeklyContents = scrapy.Selector(text=weekly)
-            for m, one in enumerate(weeklyContents.xpath('//li/div/a').xpath('@href').getall(),1):
-                webtoon_page = response.urljoin(one)
-                print(webtoon_page)
-        print('---------------------------------------------------')
-        #'/html/body/div[2]/div/div[1]/div[3]/div[1]/div[2]/div/ul[1]' #월별 웹툰 리스트 ul[i]
-        #//li[2]/div/a
-        pass
-
-    #def webtoon(self, response):
-
-'''
-import scrapy
-
-
-class QuotesSpider(scrapy.Spider):
-    name = "quotes"
-    start_urls = [
-        'http://quotes.toscrape.com/page/1/',
-    ]
+    start_urls = ['https://tkor.house/%EB%AC%B4%EB%A3%8C%EC%9B%B9%ED%88%B0']
 
     def parse(self, response):
-        for quote in response.css('div.quote'):
-            yield {
-                'text': quote.css('span.text::text').get(),
-                'author': quote.css('small.author::text').get(),
-                'tags': quote.css('div.tags a.tag::text').getall(),
-            }
-
-        next_page = response.css('li.next a::attr(href)').get()
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield scrapy.Request(next_page, callback=self.parse)
-'''
+        
+        rss_page='https://tkor.house/bbs/rss.php?bo_table=wtoon'
+        NewFeed = feedparser.parse(rss_page)
+        entries = NewFeed.entries
+        for entry in entries:
+            item = WebtoonItem()
+            item['hosturl'] = response.url.split('/')[2]
+            try:
+                item['webtoonName'] = re.findall(r'(.+?) ([0-9]+)[화회]',entry.title)[0][0]
+                item['episode'] = re.findall(r'([0-9]+)[화회]',entry.title)[0].strip()
+            except Exception as e:
+                item['webtoonName'] = entry.title
+                item['episode'] = entry.title.split(' ')[-1]
+            item['updatetime'] = entry.updated #업데이트 시간 정규화 시키기
+            now = datetime.datetime.now()
+            item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
+            item['file_urls'] = re.findall(r'src="(.*?)"',entry.summary)[0].strip()
+            item['extension'] = item['file_urls'].split('.')[-1]
+            yield item
+        
