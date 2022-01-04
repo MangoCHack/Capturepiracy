@@ -46,7 +46,7 @@ class FrtSpider(scrapy.Spider):
         item['updatetime'] = now.strftime('%Y-%m-%d %H:%M:%S') # update 시간이 안적혀 있음
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.xpath('/html/body/div[4]/div[2]/div/div/div[1]/div[2]/div/div/a/p/text()').get().strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.xpath('/html/body/div[4]/div[2]/div/div/div[1]/div[2]/div/div/a/p/text()').get().strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.xpath('/html/body/div[4]/div[2]/div/div/div[1]/div[2]/div/div/a/p/text()').get().strip())

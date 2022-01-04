@@ -5,7 +5,7 @@ from capture.items import WebtoonItem
 import datetime
 import time
 
-class HohotoonSpider(scrapy.Spider):
+class HohotoonSpider(scrapy.Spider):#캡챠있음
     name = 'hohotoon'
     #allowed_domains = ['hohotoon24.com']
     start_urls = ['https://hohotoon24.com/webtoon?toon=%EC%9D%BC%EB%B0%98%EC%9B%B9%ED%88%B0','https://hohotoon24.com/webtoon?toon=%EC%84%B1%EC%9D%B8%EC%9B%B9%ED%88%B0' ]
@@ -54,7 +54,7 @@ class HohotoonSpider(scrapy.Spider):
         item['updatetime'] = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(response.meta.get('time'))))
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.css('.list-item').xpath('.//div[2]/a/text()').getall()[1].strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.css('.list-item').xpath('.//div[2]/a/text()').getall()[1].strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.css('.list-item').xpath('.//div[2]/a/text()').getall()[1].strip())

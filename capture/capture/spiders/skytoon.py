@@ -48,7 +48,7 @@ class SkytoonSpider(scrapy.Spider):
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         item['updatetime'] = now.strftime('%Y-%m-%d %H:%M:%S') #update 시간 따로 안 적혀있음
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.css('body > div.play > div > div.topbottom > div > div.btn_list > p').xpath('.//text()').getall()[0].strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.css('body > div.play > div > div.topbottom > div > div.btn_list > p').xpath('.//text()').getall()[0].strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.css('body > div.play > div > div.topbottom > div > div.btn_list > p').xpath('.//text()').getall()[0].strip())

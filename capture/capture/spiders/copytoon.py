@@ -43,7 +43,7 @@ class CopytoonSpider(scrapy.Spider):
         now = datetime.datetime.now()
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.css('.contents-list').xpath('.//ul/li/a/div[1]/text()').getall()[2].strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.css('.contents-list').xpath('.//ul/li/a/div[1]/text()').getall()[2].strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.css('.contents-list').xpath('.//ul/li/a/div[1]/text()').getall()[2].strip())

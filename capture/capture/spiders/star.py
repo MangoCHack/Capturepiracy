@@ -44,7 +44,7 @@ class StarSpider(scrapy.Spider):
         now = datetime.datetime.now()
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.css('.bt-table').xpath('./tbody/tr/td[2]/a/text()').get().strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.css('.bt-table').xpath('./tbody/tr/td[2]/a/text()').get().strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.css('.bt-table').xpath('./tbody/tr/td[2]/a/text()').get().strip())

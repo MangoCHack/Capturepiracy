@@ -14,7 +14,11 @@ class FxfxSpider(scrapy.Spider):
             webtoon_page = response.urljoin(weekly)
             yield scrapy.Request(webtoon_page, callback=self.webtoonList)
         '''
-        webtoon_page='https://fxfx94.com/ing?o=n&type1=day&type2=recent' #업데이트 웹툰페이지
+        webtoon_page='https://fxfx94.com/ing?o=n&type1=day&type2=recent'
+        if str(response.body).find('\\xbb\\xf5\\xc1\\xd6\\xbc\\xd2 \\xc0\\xcc\\xb5\\xbf\\xc7\\xcf\\xb1\\xe2') > 0 :
+            #새주소 이동하기 있다면 새로운 url 업데이트
+            webtoon_page=response.css('.btnx').xpath('./@href').get() + '/ing?o=n&type1=day&type2=recent'
+             #업데이트 웹툰페이지
         yield scrapy.Request(webtoon_page, callback=self.webtoonList)
          
     def webtoonList(self, response): #weekly webtoonList
@@ -49,7 +53,7 @@ class FxfxSpider(scrapy.Spider):
         item['updatetime'] = response.xpath('/html/body/section/div[3]/div[1]/div[2]/ul/li[1]/a/div/div[3]/text()').get()
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.xpath('/html/body/section/div[3]/div[1]/div[2]/ul/li[1]/a/div/div[2]/text()').get().strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.xpath('/html/body/section/div[3]/div[1]/div[2]/ul/li[1]/a/div/div[2]/text()').get().strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.xpath('/html/body/section/div[3]/div[1]/div[2]/ul/li[1]/a/div/div[2]/text()').get().strip())

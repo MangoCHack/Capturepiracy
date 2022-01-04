@@ -45,7 +45,7 @@ class AgitSpider(scrapy.Spider):
         now = datetime.datetime.now()
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.xpath('/html/body/div[5]/div/div/div/div[1]/a/div/p/text()').get().strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.xpath('/html/body/div[5]/div/div/div/div[1]/a/div/p/text()').get().strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.xpath('/html/body/div[5]/div/div/div/div[1]/a/div/p/text()').get().strip())

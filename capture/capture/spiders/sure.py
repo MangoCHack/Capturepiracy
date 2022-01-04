@@ -10,13 +10,10 @@ class SureSpider(scrapy.Spider):
     start_urls = ['https://sure-02.link/']
 
     def parse(self, response):
-        '''
-        for n, weekly in enumerate(response.xpath('/html/body/div[1]/div[3]/div/div/div[4]/div[3]/ul').xpath('//li').getall(),1):  #weekly page list
-            webtoon_page = response.urljoin(weekly)
+        
+        webtoon_pages=['https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%EC%9B%94?&sort=%EC%B5%9C%EC%8B%A0','https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%ED%99%94?&sort=%EC%B5%9C%EC%8B%A0','https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%EC%88%98?&sort=%EC%B5%9C%EC%8B%A0','https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%EB%AA%A9?&sort=%EC%B5%9C%EC%8B%A0','https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%EA%B8%88?&sort=%EC%B5%9C%EC%8B%A0','https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%ED%86%A0?&sort=%EC%B5%9C%EC%8B%A0','https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%EC%9D%BC?&sort=%EC%B5%9C%EC%8B%A0']
+        for webtoon_page in webtoon_pages:
             yield scrapy.Request(webtoon_page, callback=self.webtoonList)
-        '''
-        webtoon_page='https://sure-02.link/%EC%9B%B9%ED%88%B0/%EC%9A%94%EC%9D%BC/%EC%9B%94?&sort=%EC%B5%9C%EC%8B%A0'
-        yield scrapy.Request(webtoon_page, callback=self.webtoonList)
          
     def webtoonList(self, response): #weekly webtoonList, 다음페이지 이동 코드 업데이트 필요
         #webtoon_list = response.xpath('/html/body/div[7]/div/div[1]/div/div').xpath('//p/a').xpath('@href').getall()
@@ -24,13 +21,13 @@ class SureSpider(scrapy.Spider):
         webtoon_list = response.css('.section-item-inner').getall()
         today = []
         for i in range(len(webtoon_list)):
-            flag = re.findall(r'>[0-9]+일전<',webtoon_list[i])
+            flag = re.findall(r'>오늘<',webtoon_list[i])
             url = re.findall(r'a href="(/(?:[a-zA-Z]|[0-9]|[$\-@\.&+:/?=]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)"',webtoon_list[i])
             if len(flag) == 0:
                 continue
             else:
                 today.append(response.urljoin(url[0]))
-        print(today)
+        print(len(today))
         for n, webtoon in enumerate(today):
             yield scrapy.Request(webtoon, callback=self.webtoonPage)
         
@@ -44,7 +41,7 @@ class SureSpider(scrapy.Spider):
         now = datetime.datetime.now()
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.css('.bt-table').xpath('./tbody/tr/td[2]/a/text()').get().strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.css('.bt-table').xpath('./tbody/tr/td[2]/a/text()').get().strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.css('.bt-table').xpath('./tbody/tr/td[2]/a/text()').get().strip())

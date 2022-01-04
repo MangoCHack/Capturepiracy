@@ -39,11 +39,11 @@ class RaceSpider(scrapy.Spider):
         webtoon = response.urljoin(response.css('.content__title').xpath('.//a').xpath('@href').get().strip())
         item['hosturl'] = response.url.split('/')[2]
         item['webtoonName'] = response.css('#wt_list > div:nth-child(4) > h1').xpath('text()').get().strip()
-        item['updatetime'] = response.css('.content__title').xpath('.//span/text()').getall()
+        item['updatetime'] = response.css('.content__title').xpath('.//span/text()').get()
         now = datetime.datetime.now()
         item['crawltime'] = now.strftime('%Y-%m-%d %H:%M:%S')
         try:
-            item['episode'] = re.findall(r'([0-9]+)[화\.]',response.css('.content__title').xpath('.//a/text()').getall()[0].strip())[0]
+            item['episode'] = re.findall(r'([0-9]+)[권회화\.]',response.css('.content__title').xpath('.//a/text()').getall()[0].strip())[0]
         except IndexError:
             print('[-][-][-][-][-][-] IndexError')
             print(response.css('.content__title').xpath('.//a/text()').getall()[0].strip())
@@ -53,7 +53,7 @@ class RaceSpider(scrapy.Spider):
     def webtoonCollect(self, response):
         item = response.meta.get('webtoon')
         #bo_v_con > img:nth-child(3)
-        DownloadUrl = response.css('.contents').xpath('.//image').xpath('@src').getall()[0]
+        DownloadUrl = response.css('.contents').xpath('.//img').xpath('@src').getall()[0]
         #item['file_urls'] = [DownloadUrl] #download 할때는 list로 들어가야함
         item['file_urls'] = DownloadUrl #DB로 저장할때는 원본 그대로
         item['extension'] = DownloadUrl.split('.')[-1]

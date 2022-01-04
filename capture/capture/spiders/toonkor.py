@@ -19,7 +19,7 @@ class ToonkorSpider(scrapy.Spider):
             item['hosturl'] = response.url.split('/')[2]
             try:
                 item['webtoonName'] = re.findall(r'(.+?) ([0-9]+)[화회]',entry.title)[0][0]
-                item['episode'] = re.findall(r'([0-9]+)[화회]',entry.title)[0].strip()
+                item['episode'] = re.findall(r'([0-9]+)[권회화\.]',entry.title)[0].strip()
             except Exception as e:
                 item['webtoonName'] = entry.title
                 item['episode'] = entry.title.split(' ')[-1]
