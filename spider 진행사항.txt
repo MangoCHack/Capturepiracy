@@ -1,20 +1,21 @@
-agit o
-blacktoon x 캡챠
 copytoon o
 frt o
 fxfx o
-hodu x dynamic loading
-hohotoon x 캡챠
-itflix x 접근안됨
 namedtoon o 
-newtoki x 캡챠
 newtoon o
 race o 
 skytoon o
 star o
 sure o
-toonbook x -> 링크연결 사이트
 toonkor o
 toonsarang o
-toonthe x
 wtwt o
+toonthe o
+zzolboo o
+agit x -> dynamic loading
+hodu x dynamic loading
+blacktoon x 캡챠
+hohotoon x 캡챠
+newtoki x 캡챠
+itflix x 접근안됨
+toonbook x -> 링크연결 사이트
