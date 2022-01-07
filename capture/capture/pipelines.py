@@ -46,9 +46,9 @@ class CsvPipeline(object):
     # init method도 class가 초기화될 때 최초로 실행되므로 open_spider와 동일하게 사용가능
     def __init__(self):
         # 엑셀 처리 선언
-        if not os.path.exists('E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\'):
-            os.makedirs('E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\')
-        self.file_opener = open("E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\\CrawlDB.csv", "a", newline='')
+        if not os.path.exists('..\\..\\CrawlDB\\'):
+            os.makedirs('..\\..\\CrawlDB\\')
+        self.file_opener = open("..\\..\\CrawlDB\\\CrawlDB.csv", "a", newline='')
         self.csv_writer = csv.DictWriter(self.file_opener, fieldnames=['hosturl','webtoonName','crawltime','updatetime','episode','file_urls','extension'])
         self.csv_writer.writeheader()
         '''
