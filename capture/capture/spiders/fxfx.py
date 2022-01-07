@@ -27,7 +27,6 @@ class FxfxSpider(scrapy.Spider):
         webtoon_list = response.xpath('/html/body/section/div[2]/div[8]/ul/li').getall()
         today = []
         for i in range(len(webtoon_list)):
-            
             flag = re.findall(r'>(오늘)<',webtoon_list[i])
             url = re.findall(r'a href="((http[s]{0,1}:/){0,1}/(?:[a-zA-Z]|[0-9]|[$\-@\.&+:/?=;]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)"',webtoon_list[i])
             
