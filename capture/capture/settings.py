@@ -90,7 +90,7 @@ ROBOTSTXT_OBEY = False
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 #FILES_STORE = 'donwloads'
-FILES_STORE = 'E:\\CrawlCopyright\\Capturepiracy\\WebtoonImages'
+#FILES_STORE = 'E:\\CrawlCopyright\\Capturepiracy\\WebtoonImages'
  
 FILES_URLS_FIELD = 'file_urls'
 FILES_RESULT_FIELD = 'files'
@@ -99,7 +99,7 @@ FILES_RESULT_FIELD = 'files'
 FEED_EXPORT_ENCODING = 'utf-8'
 FEED_FORMAT = "csv"
 # Name of the file where data extracted is stored
-FEED_URI = "E:\\CrawlCopyright\\Capturepiracy\\CrawlDB\\CrawlDB.csv"
+FEED_URI = "..\\..\\CrawlDB\\CrawlDB.csv"
 
 ITEM_PIPELINES = {
     #'scrapy.pipelines.files.FilesPipeline': 300,
